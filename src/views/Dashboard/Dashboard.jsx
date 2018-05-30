@@ -16,12 +16,13 @@ import {
     responsiveBar,
     responsiveSales
 } from "variables/Variables.jsx";
-import Button from "components/CustomButton/CustomButton.jsx";
 
 class Dashboard extends Component {
-    componentDidUpdate(){
+
+    componentDidUpdate() {
         this.props.handleClick("tc", "success", "You're successfully logged in.");
     };
+
     createLegend(json) {
         var legend = [];
         for (var i = 0; i < json["names"].length; i++) {
@@ -73,13 +74,6 @@ class Dashboard extends Component {
                                 statsIcon={<i className="fa fa-refresh"/>}
                                 statsIconText="Updated now"
                             />
-                            <Button
-                                bsStyle="default"
-                                block
-                                onClick={() => this.props.handleClick("tc")}
-                            >
-                                Top Center
-                            </Button>
                         </Col>
                     </Row>
                 </Grid>

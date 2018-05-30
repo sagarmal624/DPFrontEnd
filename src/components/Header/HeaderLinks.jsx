@@ -25,7 +25,7 @@ class HeaderLinks extends Component {
                 <Nav pullRight>
                     <NavDropdown
                         eventKey={1}
-                        title={this.props.currentUser.name}
+                        title="Account"
                         id="basic-nav-dropdown-right"
                     >
                         <MenuItem eventKey={1.1}>Profile</MenuItem>

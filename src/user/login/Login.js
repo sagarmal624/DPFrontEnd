@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {login} from '../../util/APIUtils';
 import './Login.css';
 import {ACCESS_TOKEN} from '../../constants';
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
 
 // import Button from "components/CustomButton/CustomButton.jsx";
 
@@ -25,7 +26,8 @@ class LoginForm extends Component {
             usernameOrEmail: '',
             password: '',
             errorLblHide: true,
-            errorMessage: ''
+            errorMessage: '',
+            loading: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -46,13 +48,18 @@ class LoginForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const state = this.state;
+        state['loading'] = true;
+        this.setState(state);
         login(state)
             .then(response => {
                 localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                state['loading'] = false;
+                this.setState(state);
                 this.props.onLogin();
+
             }).catch(error => {
             state['errorLblHide'] = false;
-
+            state['loading'] = false;
             if (error.status === 401) {
                 state['errorMessage'] = 'Your Username or Password is incorrect. Please try again!'
             } else {
@@ -65,53 +72,60 @@ class LoginForm extends Component {
     render() {
         return (
             <div>
-                <div class="content-w3ls">
-                    <div class="content-top-agile">
+                <div className="content-w3ls">
+                    <div className="content-top-agile">
                         <h2>sign in</h2>
                     </div>
-                    <div class="content-bottom">
+                    <div className="content-bottom">
                         {!this.state.errorLblHide ?
                             <label className="error">{this.state.errorMessage}</label>
                             : null}
                         <form onSubmit={this.handleSubmit}>
                             <div class="field-group">
-                                <span class="fa fa-user" aria-hidden="true"></span>
-                                <div class="wthree-field">
-                                    <input type="text" placeholder="Email or Username" className="form-control" required
+                                <span className="fa fa-user" aria-hidden="true"></span>
+                                <div className="wthree-field">
+                                    <input type="text" placeholder="Email or Username" className="form-control"
+                                           required
                                            name="usernameOrEmail" onChange={this.onChange}/>
 
                                 </div>
                             </div>
                             <div class="field-group">
-                                <span class="fa fa-lock" aria-hidden="true"></span>
-                                <div class="wthree-field">
+                                <span className="fa fa-lock" aria-hidden="true"></span>
+                                <div className="wthree-field">
                                     <input type="password" placeholder="Password" className="form-control"
                                            name="password"
                                            onChange={this.onChange} required/>
 
                                 </div>
                             </div>
-                            <ul class="list-login">
+                            <ul className="list-login">
 
                                 <li>
-                                    <a href="#" class="text-right">forgot password?</a>
+                                    <a href="#" className="text-right">forgot password?</a>
+
                                 </li>
-                                <li class="clearfix"></li>
+                                <li className="clearfix"></li>
                             </ul>
-                            <div class="wthree-field">
-                                <input id="saveForm" name="saveForm" disabled={!this.validateForm()} type="submit"
-                                       value="sign in"/>
+                            <div className="wthree-field">
+                                <button id="loginForm" name="saveForm" disabled={!this.validateForm()} type="submit">
+                                    {
+                                        this.state.loading ? <LoadingSpinner/> : <div>Sign In</div>
+                                    }
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
-                <div class="copyright text-center">
+                <div className="copyright text-center">
                     <p>© 2018 Switch Login Form. All rights reserved | Design by
                         <a href="http://w3layouts.com">W3layouts</a>
                     </p>
                 </div>
             </div>
         );
+
+
     }
 }
 

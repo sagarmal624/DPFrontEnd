@@ -378,7 +378,7 @@ form .field-group .wthree-field {
     outline: none;
 }
 
-.wthree-field input[type="submit"] {
+.wthree-field button[type="submit"] {
     background: #da0845;
     width: 100%;
     border: none;
@@ -396,7 +396,7 @@ form .field-group .wthree-field {
     -ms-transition: 0.5s all;
 }
 
-.wthree-field input[type="submit"]:hover {
+.wthree-field button[type="submit"]:hover {
     background: #000;
     color: #da0845;
     letter-spacing: 2px;
@@ -541,7 +541,7 @@ input:checked + .slider:before {
         margin: 2em 1em;
     }
 
-    .wthree-field input[type="submit"] {
+    .wthree-field button[type="submit"] {
         padding: 7px 15px;
     }
 }

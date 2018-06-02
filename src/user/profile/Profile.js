@@ -4,10 +4,10 @@ import { getUserProfile } from '../../util/APIUtils';
 import { Avatar, Tabs } from 'antd';
 import { getAvatarColor } from '../../util/Colors';
 import { formatDate } from '../../util/Helpers';
-import LoadingIndicator  from '../../common/LoadingIndicator';
 import './Profile.css';
 import NotFound from '../../common/NotFound';
 import ServerError from '../../common/ServerError';
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
 
 const TabPane = Tabs.TabPane;
 
@@ -60,7 +60,7 @@ class Profile extends Component {
 
     render() {
         if(this.state.isLoading) {
-            return <LoadingIndicator />;
+            return <LoadingSpinner/>;
         }
 
         if(this.state.notFound) {

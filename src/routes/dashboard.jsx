@@ -4,6 +4,7 @@ import PurchaseInvoiceList from "views/Invoice/Purchase/PurchaseInvoiceTableList
 import SaleInvoiceTableList from "views/Invoice/Sale/SaleInvoiceTableList";
 import CreateInvoice from "views/Invoice/CreateInvoice";
 import Company from "../views/Company/Company";
+import Address from "../views/Address/Address";
 
 const dashboardRoutes = [
     {
@@ -41,6 +42,12 @@ const dashboardRoutes = [
         name: "Company/Firm",
         icon: "pe-7s-news-paper",
         component: Company
+    },
+    {
+        path: "/address/add",
+        name: "Address",
+        icon: "pe-7s-news-paper",
+        component: Address
     },
 
     {redirect: true, path: "/", to: "/dashboard", name: "Dashboard"}

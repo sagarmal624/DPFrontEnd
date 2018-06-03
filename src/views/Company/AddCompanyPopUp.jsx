@@ -8,6 +8,7 @@ import Button from "components/CustomButton/CustomButton.jsx";
 import {ACTIONTYPE} from "variables/Variables.jsx";
 import 'react-notifications/lib/notifications.css';
 import {createCompany} from './CompanyAPIUtils'
+import LoadingSpinner from "../../components/Spinner/LoadingSpinner";
 
 class AddCompanyPopUp extends Component {
     constructor(props, context) {
@@ -22,7 +23,9 @@ class AddCompanyPopUp extends Component {
             email: "",
             mobile: "",
             "address.city": "",
-            show: false
+            show: false,
+            errors: [],
+            loading:false
         };
     }
 
@@ -30,14 +33,24 @@ class AddCompanyPopUp extends Component {
         event.preventDefault();
         this.handleHide();
         const props = this.props;
-
+        const state = this.state;
+        state['loading']=true;
+        this.setState(state);
         createCompany(this.state)
             .then(response => {
-                props.handleClick("tc", "success", response.message);
+                if (response.status)
+                    props.handleClick("tc", "success", response.message);
+                else {
+                    state['errors'] = response.data;
+                    state['loading']=false;
+                    this.setState(state);
+                }
+
+
             }).catch(error => {
             props.handleClick("tc", "error", "Something Went Wrong!. Please enter correct data");
+       });
 
-        });
     };
     onChange = function (e) {
         const state = this.state;
@@ -88,6 +101,16 @@ class AddCompanyPopUp extends Component {
                                         title="Fill The Info"
                                         content={
                                             <form onSubmit={this.onSubmit}>
+                                                {this.state.errors.map((error) =>
+                                                    <Col md={12}>
+                                                        <div role="alert" className="alert alert-danger">
+                                                            <button type="button" aria-hidden="true" className="close">✕
+                                                            </button>
+                                                            <span>{error}</span>
+                                                        </div>
+                                                    </Col>
+                                                )}
+
                                                 <Col md={12}>
                                                     <FormGroup>
                                                         <ControlLabel>Company/Firm Name</ControlLabel>
@@ -148,7 +171,10 @@ class AddCompanyPopUp extends Component {
                                                     Reset
                                                 </Button>
                                                 <Button bsStyle="info" pullRight fill type="submit">
-                                                    Save
+                                                    {
+                                                        this.state.loading ? <LoadingSpinner/> : <div>Save</div>
+                                                    }
+
                                                 </Button>
                                                 <div className="clearfix"/>
 
